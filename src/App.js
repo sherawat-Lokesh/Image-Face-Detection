@@ -1,5 +1,4 @@
 import { Component } from "react";
-import "./App.css";
 import Navigation from "./navigation/navigatino";
 import SignIn from "./signInForm/signIn";
 import Register from "./register/register.js";
@@ -7,18 +6,35 @@ import Logo from "./Logo/logo";
 import Rank from "./rank/rank.js";
 import ImageLinkForm from "./imageLinkForm/imageLinkForm";
 import FaceRecognition from "./faceRecognition/faceRecognition.js";
+import "./App.css";
+
+const initialstate = {
+  input: "",
+  imageUrl: "",
+  box: {},
+  route: "signIn",
+  isSingnedIn: false,
+
+  user: {
+    id: "",
+    name: "",
+    userName: "",
+    joined: "",
+    entries: 0,
+  },
+};
 
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      input: "",
-      imageUrl: "",
-      box: {},
-      route: "signIn",
-      isSingnedIn: false,
-    };
+    this.state = initialstate;
   }
+  componentDidMount() {
+    fetch("http://localhost:4000")
+      .then((res) => res.json())
+      .then(console.log);
+  }
+
   calculateFaceLocation = (data) => {
     const faceData = data.outputs[0].data.regions[0].region_info.bounding_box;
 
@@ -73,17 +89,43 @@ class App extends Component {
     )
       .then((response) => response.json())
       .then((res) => {
+        if (res) {
+          fetch("http://localhost:4000/image", {
+            method: "put",
+            headers: { "content-Type": "application/json" },
+            body: JSON.stringify({
+              id: this.state.user.id,
+            }),
+          })
+            .then((res) => res.json())
+            .then((count) => {
+              this.setState(Object.assign(this.state.user, { entries: count }));
+            });
+        }
         this.displayImageBox(this.calculateFaceLocation(res));
       })
       .catch((err) => console.error(err));
   };
   onRouteChange = (route) => {
-    route === "home"
-      ? this.setState({ isSingnedIn: true })
-      : this.setState({ isSingnedIn: false });
+    if (route === "home") {
+      this.setState({ isSingnedIn: true });
+    } else if (route === "signIn") {
+      this.setState(initialstate);
+    }
     this.setState({ route: route });
   };
 
+  loadUser = (data) => {
+    this.setState({
+      user: {
+        id: data.id,
+        name: data.name,
+        userName: data.userName,
+        joined: data.joined,
+        entries: data.entries,
+      },
+    });
+  };
   render() {
     return (
       <div className="App">
@@ -94,7 +136,10 @@ class App extends Component {
         {this.state.route === "home" ? (
           <div>
             <Logo />
-            <Rank />
+            <Rank
+              name={this.state.user.name}
+              entries={this.state.user.entries}
+            />
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onButtonSubmit}
@@ -105,9 +150,12 @@ class App extends Component {
             />
           </div>
         ) : this.state.route === "signIn" ? (
-          <SignIn onRouteChange={this.onRouteChange} />
+          <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
         ) : (
-          <Register onRouteChange={this.onRouteChange} />
+          <Register
+            loadUser={this.loadUser}
+            onRouteChange={this.onRouteChange}
+          />
         )}
       </div>
     );
