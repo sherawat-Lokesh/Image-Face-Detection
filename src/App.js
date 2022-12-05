@@ -7,7 +7,7 @@ import Rank from "./rank/rank.js";
 import ImageLinkForm from "./imageLinkForm/imageLinkForm";
 import FaceRecognition from "./faceRecognition/faceRecognition.js";
 import "./App.css";
-
+let set;
 const initialstate = {
   input: "",
   imageUrl: "",
@@ -30,9 +30,9 @@ class App extends Component {
     this.state = initialstate;
   }
   componentDidMount() {
-    fetch("http://localhost:4000")
+    fetch("https://shiny-hat-cod.cyclic.app")
       .then((res) => res.json())
-      .then(console.log);
+      .then(resp=>set=resp)
   }
 
   calculateFaceLocation = (data) => {
@@ -90,7 +90,7 @@ class App extends Component {
       .then((response) => response.json())
       .then((res) => {
         if (res) {
-          fetch("http://localhost:4000/image", {
+          fetch("https://shiny-hat-cod.cyclic.app/image", {
             method: "put",
             headers: { "content-Type": "application/json" },
             body: JSON.stringify({

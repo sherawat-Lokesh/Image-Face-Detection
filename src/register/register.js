@@ -19,7 +19,7 @@ class Register extends React.Component {
     this.setState({ RegisterPassword: event.target.value });
   };
   onSubmitRegister = () => {
-    fetch("http://localhost:4000/Register", {
+    fetch("https://shiny-hat-cod.cyclic.app/Register", {
       method: "post",
       headers: { "content-Type": "application/json" },
       body: JSON.stringify({
