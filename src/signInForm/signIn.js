@@ -36,11 +36,11 @@ class SignIn extends React.Component {
   };
   render() {
     return (
-      <article className="br3 ba  b--black-10 mv4 w-100 w-50-m w-25-l  mw6 shadow-5 center">
+      <article className="br3 ba  b--black-10 mv4 w-100 w-50-m w-25-l  mw6 shadow-5 center main-background">
         <main className="pa4 black-80">
           <div className="measure center">
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-              <legend className="f1 fw6 ph0 mh0">Sign In</legend>
+              <legend className="f1 fw6 ph0 mh0">SIGN IN</legend>
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="user-name">
                   user name
@@ -65,7 +65,7 @@ class SignIn extends React.Component {
                   onChange={this.onPasswordChange}
                 />
               </div>
-              <div className="">
+              <div className="sign-in">
                 <input
                   className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                   type="submit"
@@ -76,7 +76,7 @@ class SignIn extends React.Component {
                   onClick={() => this.props.onRouteChange("Register")}
                   className="lh-copy mt3"
                 >
-                  <p className="f6 pointer text-white link dim black db">
+                  <p className="f6 pointer text-white link dim black db ">
                     Sign up
                   </p>
                 </div>

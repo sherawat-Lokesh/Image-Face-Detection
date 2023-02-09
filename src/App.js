@@ -7,6 +7,7 @@ import Rank from "./rank/rank.js";
 import ImageLinkForm from "./imageLinkForm/imageLinkForm";
 import FaceRecognition from "./faceRecognition/faceRecognition.js";
 import "./App.css";
+
 let set;
 const initialstate = {
   input: "",

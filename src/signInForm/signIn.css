@@ -1,3 +1,7 @@
+.main-background{
+  background: linear-gradient(to right top,#585858,#FFFFFF);
+}
+
 .ba {
   border-style: solid;
   border-width: 1px;
@@ -61,7 +65,7 @@
 
 .link:focus {
   transition: color 0.15s ease-in;
-  outline: 1px dotted currentColor;
+  outline: 1px dotted ;
 }
 
 .w-100 {
@@ -192,4 +196,9 @@
 
 .pointer:hover {
   cursor: pointer;
+}
+
+p, .sign-in{
+  font-size: 1rem !important;
+  font-weight: 600 !important;
 }
